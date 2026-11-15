@@ -50,7 +50,7 @@ def phase(name, password):
             raise AssertionError(label)
         checks.append(label)
 
-    check("installed version 2.26.3", __version__ == "2.26.3")
+    check("installed version 2.27.0", __version__ == "2.27.0")
     check("private read/write/attachments configured",
           all(app.config[k] == "APPROVED"
               for k in ("READ_ACCESS", "WRITE_ACCESS", "ATTACHMENT_ACCESS")))
@@ -208,8 +208,8 @@ def orchestrate(report_path):
     for item in (initial, restarted, restoration):
         item.pop("password_hash_fingerprint")
     report = {
-        "status": "passed", "version": "2.26.3",
-        "upstream_commit": "8036a4cd2c4de5f955c4496c2e1028c0daa0d5f1",
+        "status": "passed", "version": "2.27.0",
+        "upstream_commit": "e5263912311058b13122bc35529eb4f928a67d13",
         "python": sys.version.split()[0],
         "native_password_stdin_does_not_echo_secret": True,
         "password_hash_unchanged_after_restart_and_restore": True,

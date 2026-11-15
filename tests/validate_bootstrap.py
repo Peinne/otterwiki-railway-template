@@ -1,6 +1,6 @@
 """Integration checks for bootstrap.py against a real installed Otter Wiki.
 
-Run with a Python environment containing Otter Wiki 2.26.3. All state and test
+Run with a Python environment containing Otter Wiki 2.27.0. All state and test
 credentials are disposable. No Docker daemon or external service is used.
 """
 from __future__ import annotations
@@ -219,7 +219,7 @@ def main(report_path):
         # Assertions have fixed descriptive labels and never include credentials.
         error = str(exc) if isinstance(exc, AssertionError) else type(exc).__name__
         results.append({"check": error, "passed": False})
-    report = {"status": status, "otterwiki_version": "2.26.3", "python": sys.version.split()[0],
+    report = {"status": status, "otterwiki_version": "2.27.0", "python": sys.version.split()[0],
               "scope": "real native CLI, SQLite, Git and Flask test client; custom bootstrap script",
               "results": results, "limitations": ["Docker image and startup shell not executed",
                  "No nginx/uWSGI, external network or Railway volume test",

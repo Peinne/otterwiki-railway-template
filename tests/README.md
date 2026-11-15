@@ -10,7 +10,7 @@ From this repository's root:
 
 ```bash
 python3 -m venv .venv
-.venv/bin/python -m pip install 'git+https://github.com/redimp/otterwiki.git@8036a4cd2c4de5f955c4496c2e1028c0daa0d5f1'
+.venv/bin/python -m pip install 'git+https://github.com/redimp/otterwiki.git@e5263912311058b13122bc35529eb4f928a67d13'
 .venv/bin/python tests/validate_bootstrap.py --report test-results/bootstrap-validation.json
 .venv/bin/python tests/validate_app.py --report test-results/application-validation.json
 bash -n docker/start.sh
@@ -30,6 +30,25 @@ bash tests/container-smoke.sh --image otterwiki-railway:smoke --report test-resu
 ```
 
 The script uses disposable containers and named volumes, generated credentials, and HTTP requests through the real nginx/uWSGI stack. It exercises first initialization, private access, administrator password changes, restart without bootstrap credentials, offline restore into a different volume, and failure handling. No repository secrets or Railway credentials are needed.
+
+### Existing-data version upgrade
+
+The same container workflow also builds the previous wrapper image from its
+verified 2.26.3 runtime files. Run the additional upgrade scenario with:
+
+```bash
+bash tests/container-smoke.sh --image otterwiki-railway:smoke \
+  --upgrade-from-image otterwiki-railway:previous \
+  --report test-results/container-smoke.json
+```
+
+This creates disposable data under 2.26.3, changes the administrator password,
+and writes a page and attachment. It then starts 2.27.0 on that same Docker volume
+without bootstrap credentials, verifies the existing account, exact contents and
+Git history, and makes a new private edit. The attachment filename includes spaces
+and parentheses; its HTTP checks do not exercise the JavaScript editor's link
+insertion. See the workflow for the exact previous-image build and blob checks.
+Do not point this fixture-based script at a live Railway volume.
 
 ## Railway HTTPS pilot helper
 
@@ -66,6 +85,8 @@ The [local report](../docs/validation/backup-local.json) covers a synthetic Git 
 Follow [RECOVERY.md](../docs/RECOVERY.md) for the authorized Railway export and independent-volume restoration procedure. The exporter opens the source SQLite database read-only, uses its Online Backup API, copies the other persistent files and checks source stability. It requires a quiet window and does not create an atomic volume snapshot. Never commit an archive or expose it as a public CI artifact; it contains authentication material and settings secrets.
 
 ## Observed validation
+
+The [2.27.0 maintenance record](../docs/MAINTENANCE-2.27.0.md) identifies the new application, bootstrap and container runs, including an actual 2.26.3 → 2.27.0 upgrade. The observations below describe the original 2.26.3 validation.
 
 On 2026-11-14, the pinned upstream source passed 79 selected upstream tests and a separate 54-assertion create/restart/offline-restore scenario under Python 3.12.14. The custom bootstrap passed 34 integration controls, including two nested Flask phases with 38 assertions. These suites overlap and should not be presented as one count of independent scenarios.
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Bounded HTTPS checks for an authorized Otter Wiki 2.26.3 pilot.
+"""Bounded HTTPS checks for an authorized Otter Wiki 2.27.0 pilot.
 
 Uses only the Python standard library. Credentials are read from a local,
 owner-only 0600 JSON file: {"email": "...", "password": "..."}. Never pass

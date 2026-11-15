@@ -1,7 +1,9 @@
 # Recovery drill — passed
 
 The controlled recovery drill passed on 2026-11-15 for the pinned pilot
-configuration. Recovery validation is complete.
+configuration under Otter Wiki 2.26.3. That historical drill remains complete;
+see the [2.27.0 maintenance record](MAINTENANCE-2.27.0.md) for the new export and
+version-upgrade validation.
 See the [sanitized Railway recovery report](validation/railway-recovery.json).
 
 `ops/backup_data.py` prepares a **checked online copy**, not an atomic snapshot of

@@ -2,13 +2,13 @@
 
 This repository is an independent deployment wrapper for [An Otter Wiki](https://otterwiki.com/), maintained upstream by [redimp](https://github.com/redimp/otterwiki). It is not an official Otter Wiki or Railway product and does not claim authorship of the wiki application.
 
-The Dockerfile derives from the official `redimp/otterwiki` image, version `2.26.3`, pinned to its multiarchitecture digest. The corresponding upstream source tag is [`v2.26.3`](https://github.com/redimp/otterwiki/tree/v2.26.3), commit `8036a4cd2c4de5f955c4496c2e1028c0daa0d5f1`.
+The Dockerfile derives from the official `redimp/otterwiki` image, version `2.27.0`, pinned to its multiarchitecture digest. The corresponding upstream source tag is [`v2.27.0`](https://github.com/redimp/otterwiki/tree/v2.27.0), commit `e5263912311058b13122bc35529eb4f928a67d13`.
 
 Upstream dependencies and operating-system components retain their own licenses. The MIT license at the repository root covers the original deployment wrapper files only.
 
 ## An Otter Wiki license
 
-Source: [upstream LICENSE at v2.26.3](https://github.com/redimp/otterwiki/blob/v2.26.3/LICENSE).
+Source: [upstream LICENSE at v2.27.0](https://github.com/redimp/otterwiki/blob/v2.27.0/LICENSE).
 
 ```text
 MIT License
@@ -36,4 +36,4 @@ SOFTWARE.
 
 ## Otter artwork
 
-The template and service icon use the unmodified otter artwork by Christy Presler, licensed under [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/), as credited by the [upstream README](https://github.com/redimp/otterwiki/blob/v2.26.3/README.md). The [image file](https://github.com/redimp/otterwiki/blob/v2.26.3/otterwiki/static/img/otterhead-up-512.png) is provided by the upstream project. No endorsement is implied.
+The template and service icon use the unmodified otter artwork by Christy Presler, licensed under [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/), as credited by the [upstream README](https://github.com/redimp/otterwiki/blob/v2.27.0/README.md). The [image file](https://github.com/redimp/otterwiki/blob/v2.27.0/otterwiki/static/img/otterhead-up-512.png) is provided by the upstream project. No endorsement is implied.

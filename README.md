@@ -132,10 +132,12 @@ One replica does not provide high availability, and redeployments can interrupt
 access. Review updates deliberately and verify them against a separate copy of
 your data before changing a working installation.
 
+Current release: **Otter Wiki 2.27.0**. See the [maintenance record](docs/MAINTENANCE-2.27.0.md) for the existing-data upgrade checks and update procedure.
+
 The upstream image is pinned to a release and immutable digest:
 
 ```text
-redimp/otterwiki:2.26.3@sha256:74740588190fa25dcb01ba4bde11e53d7a3db544d25a8afcb2e385fb5fbce3d7
+redimp/otterwiki:2.27.0@sha256:9cf1d76c6bff097ff924404aa5a149b235b15aaa05553870e96504cd1d92752b
 ```
 
 When reporting a problem, include the application version, the failed step and

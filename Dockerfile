@@ -1,4 +1,4 @@
-FROM redimp/otterwiki:2.26.3@sha256:74740588190fa25dcb01ba4bde11e53d7a3db544d25a8afcb2e385fb5fbce3d7
+FROM redimp/otterwiki:2.27.0@sha256:9cf1d76c6bff097ff924404aa5a149b235b15aaa05553870e96504cd1d92752b
 
 # These paths must stay on the same persistent Railway volume. The inherited
 # entrypoint creates the repository/settings and fixes www-data ownership.

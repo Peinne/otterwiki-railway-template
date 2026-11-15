@@ -25,10 +25,42 @@ jobs:
       - name: Build the pinned upstream wrapper
         run: docker build --pull --progress=plain --tag otterwiki-railway:smoke .
 
+      - name: Build the previous version with its unchanged wrapper
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import hashlib
+          import os
+          from pathlib import Path
+
+          def git_blob(data):
+              return hashlib.sha1(b"blob " + str(len(data)).encode() + b"\0" + data).hexdigest()
+
+          # This release changes the base image only. Refuse to label a changed
+          # bootstrap/startup wrapper as the previous release in the upgrade test.
+          for name, expected in {
+              "docker/bootstrap.py": "3fb4114a4016c1546b763562758351aa712187e9",
+              "docker/start.sh": "d5e027d9c70bf135494e45f89717ce306cc67d6c",
+          }.items():
+              if git_blob(Path(name).read_bytes()) != expected:
+                  raise SystemExit("Previous-wrapper runtime no longer matches the recorded release")
+          current = Path("Dockerfile").read_bytes()
+          first, separator, rest = current.partition(b"\n")
+          if first != b"FROM redimp/otterwiki:2.27.0@sha256:9cf1d76c6bff097ff924404aa5a149b235b15aaa05553870e96504cd1d92752b":
+              raise SystemExit("Unexpected candidate base image")
+          previous = (b"FROM redimp/otterwiki:2.26.3@sha256:74740588190fa25dcb01ba4bde11e53d7a3db544d25a8afcb2e385fb5fbce3d7"
+                      + separator + rest)
+          if git_blob(previous) != "0bb038ae87caad5d442948a6e8403bef61eea925":
+              raise SystemExit("Previous Dockerfile no longer matches the recorded release")
+          Path(os.environ["RUNNER_TEMP"], "Dockerfile.previous").write_bytes(previous)
+          PY
+          docker build --pull --progress=plain --file "$RUNNER_TEMP/Dockerfile.previous" --tag otterwiki-railway:previous .
+
       - name: Exercise the real container and persistent data
         run: >-
           bash tests/container-smoke.sh
           --image otterwiki-railway:smoke
+          --upgrade-from-image otterwiki-railway:previous
           --report "$RUNNER_TEMP/container-smoke.json"
 
       - name: Publish the sanitized result in the job summary

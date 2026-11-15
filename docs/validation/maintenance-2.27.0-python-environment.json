@@ -1,0 +1,27 @@
+{
+  "python": "3.12.14",
+  "otterwiki_version": "2.27.0",
+  "source": {
+    "url": "https://github.com/redimp/otterwiki.git",
+    "vcs_info": {
+      "commit_id": "e5263912311058b13122bc35529eb4f928a67d13",
+      "requested_revision": "e5263912311058b13122bc35529eb4f928a67d13",
+      "vcs": "git"
+    }
+  },
+  "test_inputs": {
+    "tests/validate_app.py": {
+      "git_blob_sha1": "dcc16a8f9c4c69cd34d495b9c9371b83b4d359be",
+      "sha256": "19054deeca11dda15fd5f83542ea84a0622b8017e24cc9e51c15961d02543522"
+    },
+    "tests/validate_bootstrap.py": {
+      "git_blob_sha1": "38a29524c1d17dab3656715edbafbdc86badcc69",
+      "sha256": "b1c9307a0c3b1a50e3f3f6fc9d029bee526dbf4ce046538c10fb8abda6cf3960"
+    },
+    "docker/bootstrap.py": {
+      "git_blob_sha1": "3fb4114a4016c1546b763562758351aa712187e9",
+      "sha256": "f47f706109928d5d01622a16b32e4bb6536fb0713600d3eb86207b4543fb26a1"
+    }
+  },
+  "scope": "isolated local virtual environment; no Docker or deployed-service verification"
+}

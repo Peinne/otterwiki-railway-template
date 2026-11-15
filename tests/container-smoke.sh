@@ -22,13 +22,21 @@ import urllib.request
 
 parser = argparse.ArgumentParser(description="Exercise the real Otter Wiki container over loopback HTTP.")
 parser.add_argument("--image", default="otterwiki-railway:smoke")
+parser.add_argument("--upgrade-from-image", help="Optional prebuilt 2.26.3 wrapper for a same-volume upgrade check")
 parser.add_argument("--report", type=Path, default=Path("test-results/container-smoke.json"))
 args = parser.parse_args()
 report_path = args.report.resolve()
 os.umask(0o077)
 base = "http://127.0.0.1:8080"
 marker = "container-smoke-72fe32"
+page_content = "# Container smoke\n\n" + marker + "\n"
+attachment_name = "fixture (draft).txt"
+attachment_path = "/ContainerSmoke/a/" + urllib.parse.quote(attachment_name, safe="")
 attachment = b"Disposable container attachment 3295ad.\n"
+target_version = "2.27.0"
+previous_version = "2.26.3"
+upgrade = {"requested": bool(args.upgrade_from_image), "status": "not_run",
+           "from_version": previous_version, "to_version": target_version}
 checks = []
 containers = []
 volumes = []
@@ -181,7 +189,7 @@ def stop_remove(name):
     containers.remove(name)
 
 
-def launch(name, volume, env_file=None):
+def launch(name, volume, env_file=None, *, image=None):
     containers.append(name)
     arguments = ["run", "--detach", "--name", name,
                  "--publish", "127.0.0.1:8080:8080", "--env", "PORT=8080",
@@ -189,7 +197,7 @@ def launch(name, volume, env_file=None):
     if env_file is not None:
         # Only the path is an argument; generated credentials enter as env vars.
         arguments += ["--env-file", str(env_file)]
-    arguments.append(args.image)
+    arguments.append(image or args.image)
     docker(*arguments)
 
 
@@ -252,32 +260,32 @@ class Client:
         return b"You logged in successfully" in body
 
 
-def verify_http(credentials, phase):
+def verify_http(credentials, phase, *, initialize=False):
     anonymous = Client()
     status, body, url = anonymous.request("/Home")
     require(status == 200 and urllib.parse.urlsplit(url).path == "/-/login",
             phase + ": anonymous page request reaches login")
-    if phase == "fresh":
+    if initialize or phase == "upgrade":
         status, _, _ = anonymous.post("/-/register", {
             "name": "Disposable Signup", "email": "signup@example.invalid",
             "password1": "unused-registration-test", "password2": "unused-registration-test"})
-        require(status == 400, "fresh: registration refused with a valid CSRF token")
+        require(status == 400, phase + ": registration refused with a valid CSRF token")
         status, _, _ = Client().post("/-/login", {
             "email": credentials["email"], "password": credentials["initial"]}, csrf=False)
-        require(status == 400, "fresh: login without CSRF token refused")
+        require(status == 400, phase + ": login without CSRF token refused")
 
     admin = Client()
-    password = credentials["initial"] if phase == "fresh" else credentials["changed"]
+    password = credentials["initial"] if initialize else credentials["changed"]
     require(admin.login(credentials["email"], password), phase + ": administrator HTTP login works")
     status, body, _ = admin.request("/-/admin/user_management")
     require(status == 200 and credentials["email"].encode() in body,
             phase + ": administrator management works")
 
-    if phase == "fresh":
+    if initialize:
         status, body, _ = admin.post("/ContainerSmoke/save", {
-            "content": "# Container smoke\n\n" + marker + "\n",
+            "content": page_content,
             "commit": "Create disposable container test page"})
-        require(status == 200 and marker.encode() in body, "fresh: page saved through real HTTP")
+        require(status == 200 and marker.encode() in body, phase + ": page saved through real HTTP")
         boundary = "otterwiki-smoke-" + secrets.token_hex(12)
         fields = {"csrf_token": admin.token(), "message": "Disposable container attachment"}
         parts = []
@@ -285,30 +293,37 @@ def verify_http(credentials, phase):
             parts.append(("--" + boundary + "\r\nContent-Disposition: form-data; name=\"" + key +
                           "\"\r\n\r\n" + value + "\r\n").encode())
         parts.append(("--" + boundary + "\r\nContent-Disposition: form-data; name=\"file\"; "
-                      "filename=\"fixture.txt\"\r\nContent-Type: text/plain\r\n\r\n").encode()
+                      "filename=\"" + attachment_name + "\"\r\nContent-Type: text/plain\r\n\r\n").encode()
                      + attachment + b"\r\n")
         parts.append(("--" + boundary + "--\r\n").encode())
         status, _, _ = admin.request("/ContainerSmoke/attachments", b"".join(parts),
                                     "multipart/form-data; boundary=" + boundary)
-        require(status == 200, "fresh: attachment uploaded through real HTTP")
+        require(status == 200, phase + ": attachment with spaces and parentheses uploaded through HTTP")
+    if initialize or phase == "upgrade":
         anonymous.post("/ContainerSmoke/save", {
             "content": "UNAUTHORIZED REPLACEMENT", "commit": "Unauthorized test request"})
 
     status, body, _ = admin.request("/ContainerSmoke")
     require(status == 200 and marker.encode() in body and b"UNAUTHORIZED REPLACEMENT" not in body,
             phase + ": saved page retained and unauthorized write excluded")
-    status, body, _ = admin.request("/ContainerSmoke/a/fixture.txt")
-    require(status == 200 and body == attachment, phase + ": attachment bytes retained")
-    _, body, _ = anonymous.request("/ContainerSmoke")
-    require(marker.encode() not in body, phase + ": page content remains private")
-    _, body, _ = anonymous.request("/ContainerSmoke/a/fixture.txt")
-    require(body != attachment, phase + ": attachment remains private")
+    status, body, _ = admin.request("/ContainerSmoke/source?raw")
+    source = re.sub(rb"\n\[\]: # \([^\r\n]*\)\Z", b"", body)
+    require(status == 200 and source == page_content.encode(), phase + ": exact Markdown source retained")
+    status, body, _ = admin.request(attachment_path)
+    require(status == 200 and body == attachment,
+            phase + ": attachment bytes retained through a percent-encoded HTTP path")
+    status, body, url = anonymous.request("/ContainerSmoke")
+    require(status == 200 and urllib.parse.urlsplit(url).path == "/-/login" and marker.encode() not in body,
+            phase + ": page content remains private behind login")
+    status, body, url = anonymous.request(attachment_path)
+    require(status == 200 and urllib.parse.urlsplit(url).path == "/-/login" and body != attachment,
+            phase + ": attachment remains private behind login")
 
-    if phase == "fresh":
+    if initialize:
         _, body, _ = admin.post("/-/settings", {
             "password1": credentials["changed"], "password2": credentials["changed"]})
         require(b"Your password was updated successfully" in body,
-                "fresh: administrator changes password through HTTP")
+                phase + ": administrator changes password through HTTP")
     require(Client().login(credentials["email"], credentials["changed"]),
             phase + ": changed password works in a new HTTP session")
     require(not Client().login(credentials["email"], credentials["initial"]),
@@ -316,6 +331,15 @@ def verify_http(credentials, phase):
     if phase == "restore":
         require(not Client().login(credentials["replacement_email"], credentials["replacement"]),
                 "restore: changed bootstrap variables do not create an account")
+    return admin
+
+
+def git_head(name):
+    value = docker("exec", "--user", "www-data", name, "git", "-C",
+                   "/app-data/repository", "rev-parse", "HEAD").stdout.strip()
+    if not re.fullmatch(r"[0-9a-f]{40}", value):
+        raise SmokeFailure("Git head probe returned an unexpected result")
+    return value
 
 
 RUNTIME_CHECK = r'''
@@ -325,7 +349,7 @@ import pwd
 import sqlite3
 import sys
 from otterwiki import __version__
-assert __version__ == "2.26.3"
+assert __version__ == sys.argv[1]
 assert sys.version_info[:2] == (3, 11)
 uid = pwd.getpwnam("www-data").pw_uid
 for name in ("settings.cfg", "db.sqlite", "repository", "repository/.git"):
@@ -373,6 +397,8 @@ try:
     require(shutil.which("docker") is not None, "Docker CLI available")
     docker("info", timeout=15)
     docker("image", "inspect", args.image)
+    if args.upgrade_from_image:
+        docker("image", "inspect", args.upgrade_from_image)
     require(True, "Docker daemon and prebuilt image available")
     with tempfile.TemporaryDirectory(prefix="otterwiki-container-smoke-") as temporary:
         work = Path(temporary)
@@ -398,8 +424,9 @@ try:
         launch(current, volumes[0], original_env)
         wait_health(current, 120)
         require(True, "fresh: port 8080 health responds through nginx/uWSGI")
-        verify_http(credentials, "fresh")
-        docker("exec", "--interactive", current, "/opt/venv/bin/python", "-", input_text=RUNTIME_CHECK)
+        verify_http(credentials, "fresh", initialize=True)
+        docker("exec", "--interactive", current, "/opt/venv/bin/python", "-", target_version,
+               input_text=RUNTIME_CHECK)
         require(True, "fresh: Python 3.11, www-data ownership/workers and sanitized supervisor environment")
 
         stage = "restart without bootstrap credentials"
@@ -426,9 +453,55 @@ try:
         launch(current, volumes[1], changed_env)
         wait_health(current, 60)
         verify_http(credentials, "restore")
-        docker("exec", "--interactive", current, "/opt/venv/bin/python", "-", input_text=RUNTIME_CHECK)
+        docker("exec", "--interactive", current, "/opt/venv/bin/python", "-", target_version,
+               input_text=RUNTIME_CHECK)
         require(True, "restore: complete offline backup works on a new named volume")
         stop_remove(current)
+
+        if args.upgrade_from_image:
+            stage = "initialize previous version for upgrade"
+            upgrade["status"] = "running"
+            upgrade_volume = namespace + "-upgrade"
+            docker("volume", "create", upgrade_volume)
+            volumes.append(upgrade_volume)
+            current = namespace + "-previous"
+            launch(current, upgrade_volume, original_env, image=args.upgrade_from_image)
+            wait_health(current, 120)
+            verify_http(credentials, "upgrade source", initialize=True)
+            docker("exec", "--interactive", current, "/opt/venv/bin/python", "-", previous_version,
+                   input_text=RUNTIME_CHECK)
+            require(True, "upgrade source: expected 2.26.3 runtime and existing administrator verified")
+            previous_head = git_head(current)
+            stop_remove(current)
+
+            stage = "upgrade existing volume without bootstrap credentials"
+            current = namespace + "-upgraded"
+            launch(current, upgrade_volume)
+            wait_health(current, 120)
+            docker("exec", "--interactive", current, "/opt/venv/bin/python", "-", target_version,
+                   input_text=RUNTIME_CHECK)
+            require(True, "upgrade: expected 2.27.0 runtime starts on the existing volume without bootstrap credentials")
+            admin = verify_http(credentials, "upgrade")
+            require(git_head(current) == previous_head, "upgrade: Git head and existing history retained")
+            docker("exec", "--user", "www-data", current, "git", "-C", "/app-data/repository",
+                   "fsck", "--full", "--no-dangling")
+            require(True, "upgrade: retained Git object graph passes integrity check")
+            updated_content = page_content + "\nEdit after version upgrade.\n"
+            status_code, _, _ = admin.post("/ContainerSmoke/save", {
+                "content": updated_content, "commit": "Verify a new edit after version upgrade"})
+            require(status_code == 200, "upgrade: existing administrator saves a new edit")
+            status_code, body, _ = admin.request("/ContainerSmoke/source?raw")
+            source = re.sub(rb"\n\[\]: # \([^\r\n]*\)\Z", b"", body)
+            require(status_code == 200 and source == updated_content.encode(),
+                    "upgrade: new edit is preserved exactly")
+            require(git_head(current) != previous_head, "upgrade: new edit creates a Git revision")
+            status_code, body, _ = admin.request(attachment_path)
+            require(status_code == 200 and body == attachment, "upgrade: existing attachment survives the new edit")
+            status_code, body, url = Client().request("/ContainerSmoke")
+            require(status_code == 200 and urllib.parse.urlsplit(url).path == "/-/login"
+                    and marker.encode() not in body, "upgrade: newly edited page remains private behind login")
+            upgrade["status"] = "passed"
+            stop_remove(current)
 
         stage = "missing first-run credentials"
         current = namespace + "-missing"
@@ -467,6 +540,8 @@ except Exception as error:
     failure = {"stage": stage, "type": type(error).__name__,
                "reason": str(error) if isinstance(error, SmokeFailure) else "unexpected exception; raw details omitted"}
 finally:
+    if upgrade["status"] == "running":
+        upgrade["status"] = "failed"
     for name in list(containers):
         if status != "passed":
             diagnostics.append(container_diagnostics(name))
@@ -491,14 +566,16 @@ finally:
         except Exception:
             status = "failed"
             failure = failure or {"stage": "volume cleanup", "type": "SmokeFailure"}
-    report = {"status": status, "checks": checks, "failure": failure,
+    report = {"status": status, "target_version": target_version, "upgrade": upgrade,
+              "checks": checks, "failure": failure,
               "failed_command": last_command_failure, "container_diagnostics": diagnostics,
               "elapsed_seconds": round(time.monotonic() - started, 2),
               "scope": "built image, inherited entrypoint, nginx/uWSGI, real loopback HTTP and Docker named volumes",
               "limitations": ["No Railway deployment, networking, TLS, billing or marketplace installation",
                               "No load or sustained resource-usage measurement",
                               "Inherited Docker VOLUME creates an anonymous mount when --mount is omitted; the no-mount negative check uses an ordinary directory",
-                              "Offline tar restore only; no live SQLite backup test"]}
+                              "Offline tar restore only; no live SQLite backup test",
+                              "Special attachment filename check covers upload/download HTTP paths, not editor JavaScript link generation"]}
     report_path.parent.mkdir(parents=True, exist_ok=True)
     report_path.write_text(json.dumps(report, indent=2) + "\n")
     print("Container smoke result: " + status + "; completed checks: " + str(len(checks)), flush=True)

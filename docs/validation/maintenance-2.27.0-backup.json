@@ -1,0 +1,21 @@
+{
+  "status": "success",
+  "before_runtime_version": "2.26.3",
+  "consistency": "checked_online_copy_not_atomic_snapshot",
+  "database_integrity": "ok",
+  "source_stability_checks": "passed",
+  "entries": 70,
+  "uncompressed_bytes": 70726,
+  "archive_bytes": 17136,
+  "archive_mode": "0600",
+  "elapsed_seconds": 0.03,
+  "download_sha256_matches": true,
+  "private_archive_persisted": true,
+  "backup_script_sha256": "f1921b0604006f0b27c6a71361dc5b6aa0bb88297d71ab204b41c2ea1dc91fb6",
+  "limits": [
+    "This export was not restored separately; controlled recovery of a prior pilot export was tested on 2026-11-15.",
+    "An online checked copy is not an atomic volume snapshot.",
+    "Archive, hashes of authentication data and wiki content are private and excluded from this record."
+  ],
+  "performed_on_utc": "2026-11-15"
+}

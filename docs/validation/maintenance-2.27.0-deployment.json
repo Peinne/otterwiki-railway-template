@@ -1,0 +1,34 @@
+{
+  "status": "passed",
+  "observed_on_utc": "2026-11-15",
+  "from_version": "2.26.3",
+  "runtime_version_observed": "2.27.0",
+  "runtime_version_method": "import otterwiki; print(otterwiki.__version__) in the authenticated console of the new deployment",
+  "deployment_status": "SUCCESS",
+  "deployment_started_at": "2026-11-15T23:13:15.472Z",
+  "deployment_status_updated_at": "2026-11-15T23:14:13.731Z",
+  "runtime_blobs": {
+    "Dockerfile": "98d9c299b92caeeca5b183518984509391e38755",
+    "docker/start.sh": "d5e027d9c70bf135494e45f89717ce306cc67d6c",
+    "docker/bootstrap.py": "3fb4114a4016c1546b763562758351aa712187e9"
+  },
+  "build_image_pin_observed": "redimp/otterwiki:2.27.0@sha256:9cf1d76c6bff097ff924404aa5a149b235b15aaa05553870e96504cd1d92752b",
+  "existing_volume_identity_preserved": true,
+  "volume_mount": "/app-data",
+  "replicas": 1,
+  "bootstrap_variables_absent": true,
+  "source_commit_was_only_staged_change": true,
+  "pending_changes_after_deployment": false,
+  "https_report": "maintenance-2.27.0-railway.json",
+  "https_checks_passed": 24,
+  "https_elapsed_seconds": 137.87,
+  "fresh_private_export_before_deployment": true,
+  "paid_plan_upgrade_performed": false,
+  "limitations": [
+    "One controlled same-volume upgrade, not continuous availability monitoring.",
+    "The HTTPS helper checks existing synthetic content and then edits only its own fixture page.",
+    "This does not update or inspect third-party installations."
+  ],
+  "tested_runtime_files_match_deployed_revision": true,
+  "detailed_deployment_identity_retained_privately": true
+}
