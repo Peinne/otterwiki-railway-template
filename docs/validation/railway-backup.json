@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "observed_date_utc": "2026-11-15",
+  "environment_class": "private Railway staging pilot",
+  "operation": "checked application-level export",
+  "python_version": "3.11",
+  "consistency": "checked_online_copy_not_atomic_snapshot",
+  "checks": {
+    "export_script_digest_verified_before_execution": true,
+    "source_opened_read_only": true,
+    "sqlite_online_backup_api_used": true,
+    "sqlite_integrity_check": "ok",
+    "source_stability_checks": "passed",
+    "archive_mode": "0600",
+    "download_digest_matches_remote_archive": true,
+    "private_durable_copy_saved": true,
+    "original_service_stopped_or_redeployed": false
+  },
+  "measurements": {
+    "entries": 70,
+    "uncompressed_bytes": 70726,
+    "archive_bytes": 17136,
+    "export_duration_seconds": 0.05
+  },
+  "limitations": [
+    "The copy is not an atomic filesystem snapshot; a quiet window is required.",
+    "The archive contains authentication material and configuration secrets and is not stored in this repository.",
+    "This export report alone does not prove successful restoration.",
+    "Native backup creation was unavailable on the observed Trial plan; no paid upgrade was made."
+  ]
+}

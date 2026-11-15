@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "status": "passed_with_scope_limits",
+  "observed_date_utc": "2026-11-15",
+  "template_name": "Otter Wiki — Private Wiki",
+  "template_code": "umrEkV",
+  "marketplace_published": false,
+  "source_repository_visibility": "private",
+  "source_commit_reported_by_railway": "ba1c01114290e2f1745de77e08bcd50ab6f717e8",
+  "deployment_created_at_utc": "2026-11-15T18:40:32.255Z",
+  "deployment_succeeded_at_utc": "2026-11-15T18:41:09.760Z",
+  "installation": {
+    "created_from_saved_template_definition": true,
+    "separate_service_and_empty_volume": true,
+    "original_pilot_data_copied_into_fresh_installation": false,
+    "distinct_wiki_administrator": true,
+    "generated_secret_format": "64 hexadecimal characters",
+    "generated_secret_differs_from_original_pilot": true,
+    "same_owner_railway_account_and_workspace": true,
+    "unrelated_installer_account_tested": false
+  },
+  "observed_configuration": {
+    "replicas": 1,
+    "volume_mount": "/app-data",
+    "volume_size_mb": 500,
+    "domain_target_port": 8080,
+    "builder_field_in_api": "RAILPACK",
+    "build_method_confirmed_in_logs_and_dashboard": "automatically detected root Dockerfile",
+    "healthcheck_path": "/-/healthz",
+    "healthcheck_retry_window_seconds_in_build_logs": 300,
+    "restart_policy_in_dashboard": "ON_FAILURE",
+    "restart_max_retries": 3,
+    "auto_deploy_in_dashboard": "disabled"
+  },
+  "functional_validation": {
+    "report": "template-initial.json",
+    "status": "passed",
+    "checks": 21,
+    "elapsed_seconds": 144.02
+  },
+  "limitations": [
+    "A separate wiki account and volume are not a separate Railway installer account.",
+    "The private repository still restricts who can deploy this unlisted template.",
+    "The template uses the observed platform-default 300-second readiness window; the original pilot uses 120 seconds.",
+    "The template authoring interface did not expose an explicit Dockerfile builder field or readiness timeout.",
+    "HTTP check durations include client/network overhead and are not server latency measurements.",
+    "This report does not establish marketplace publication, adoption, revenue or sustained availability."
+  ]
+}

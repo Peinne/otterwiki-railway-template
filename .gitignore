@@ -1,0 +1,24 @@
+# Credentials and local environment overrides
+.env
+.env.*
+!.env.example
+
+# Persistent wiki data and local backups
+/app-data/
+/backups/
+
+# Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Local execution output; keep intentional sanitized reports elsewhere
+/test-results/
+/tmp/
+*.log
+.DS_Store
+

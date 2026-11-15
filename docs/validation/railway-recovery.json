@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "status": "passed",
+  "observed_date_utc": "2026-11-15",
+  "source_revision_reported_by_railway": "ba1c01114290e2f1745de77e08bcd50ab6f717e8",
+  "method": "checked application export followed by offline restore on a separate Railway volume",
+  "source_export_report": "railway-backup.json",
+  "isolation": {
+    "original_pilot_service_or_volume_modified": false,
+    "original_pilot_active_deployment_unchanged": true,
+    "fresh_template_installation_volume_detached_and_preserved": true,
+    "new_recovery_volume_created": true,
+    "recovery_volume_size_mb": 500,
+    "mount_path": "/app-data",
+    "destination_initially_empty_except_empty_lost_found": true,
+    "application_processes_absent_during_restore": true,
+    "bootstrap_variables_absent": true,
+    "maintenance_handler_did_not_serve_files": true
+  },
+  "offline_restore": {
+    "python_version": "3.11",
+    "script_digest_verified_before_execution": true,
+    "archive_digest_verified_after_authenticated_transfer": true,
+    "archive_mode": "0600",
+    "status": "success",
+    "entries": 70,
+    "uncompressed_bytes": 70726,
+    "sqlite_integrity": "ok",
+    "git_integrity": "ok",
+    "metadata_preserved": true,
+    "application_started_by_restore_tool": false,
+    "elapsed_seconds": 0.04
+  },
+  "normal_restart": {
+    "temporary_start_command_removed": true,
+    "bootstrap_variables_absent": true,
+    "same_recovery_volume_retained": true,
+    "deployment_status": "SUCCESS",
+    "created_at_utc": "2026-11-15T19:02:15.828Z",
+    "succeeded_at_utc": "2026-11-15T19:02:58.081Z"
+  },
+  "https_validation": {
+    "report": "railway-restore-https.json",
+    "status": "passed",
+    "checks": 24,
+    "elapsed_seconds": 157.46,
+    "original_administrator_credentials_work": true,
+    "exact_original_synthetic_page_and_attachment_match": true,
+    "registration_disabled_and_content_private": true,
+    "new_private_edit_saved_and_verified": true
+  },
+  "limitations": [
+    "The source export is a checked online copy, not an atomic volume snapshot.",
+    "Restoration publishes several files and is not atomic; the independent destination must stay offline until success.",
+    "The HTTP helper edited only a synthetic fixture on the restored copy, not the principal pilot.",
+    "This was a controlled recovery exercise, not an automated backup or disaster-recovery service.",
+    "Durations are task observations, not recovery-time or availability guarantees."
+  ],
+  "cleanup": {
+    "temporary_service_deleted": true,
+    "fresh_installation_volume": "detached and retained",
+    "recovery_volume": "detached and retained",
+    "original_pilot": "unchanged",
+    "remaining_active_services": 1,
+    "pending_environment_changes": false,
+    "storage_note": "Retained test volumes can continue to consume storage; temporary compute has been removed.",
+    "observed_on": "2026-11-15"
+  }
+}

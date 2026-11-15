@@ -1,0 +1,94 @@
+{
+  "status": "passed",
+  "version": "2.26.3",
+  "upstream_commit": "8036a4cd2c4de5f955c4496c2e1028c0daa0d5f1",
+  "python": "3.12.14",
+  "native_password_stdin_does_not_echo_secret": true,
+  "password_hash_unchanged_after_restart_and_restore": true,
+  "git_head_unchanged_after_restart_and_restore": true,
+  "offline_backup_restored_to_new_directory": true,
+  "phases": [
+    {
+      "phase": "create",
+      "checks": [
+        "installed version 2.26.3",
+        "private read/write/attachments configured",
+        "registration disabled and automatic approval off",
+        "CSRF enabled",
+        "debug remains disabled",
+        "health endpoint works without login",
+        "anonymous home request prompts for login",
+        "registration POST rejected with valid CSRF",
+        "login POST without CSRF rejected",
+        "wrong password rejected",
+        "native CLI password allows web login",
+        "bootstrapped admin can access user management",
+        "page created via actual save route",
+        "attachment uploaded via actual route",
+        "anonymous page modification prevented",
+        "saved page content readable by admin",
+        "saved attachment exact bytes readable by admin",
+        "saved page remains private",
+        "saved attachment remains private",
+        "only seeded admin exists",
+        "admin permissions and confirmation persist",
+        "page and attachment are in Git history"
+      ],
+      "git_head": "7c55d4cd0c2e5a16976daf0b0ec9c491d64096f9",
+      "git_commit_count": 3
+    },
+    {
+      "phase": "restart",
+      "checks": [
+        "installed version 2.26.3",
+        "private read/write/attachments configured",
+        "registration disabled and automatic approval off",
+        "CSRF enabled",
+        "debug remains disabled",
+        "health endpoint works without login",
+        "anonymous home request prompts for login",
+        "native CLI password allows web login",
+        "bootstrapped admin can access user management",
+        "saved page content readable by admin",
+        "saved attachment exact bytes readable by admin",
+        "saved page remains private",
+        "saved attachment remains private",
+        "only seeded admin exists",
+        "admin permissions and confirmation persist",
+        "page and attachment are in Git history"
+      ],
+      "git_head": "7c55d4cd0c2e5a16976daf0b0ec9c491d64096f9",
+      "git_commit_count": 3
+    },
+    {
+      "phase": "restore",
+      "checks": [
+        "installed version 2.26.3",
+        "private read/write/attachments configured",
+        "registration disabled and automatic approval off",
+        "CSRF enabled",
+        "debug remains disabled",
+        "health endpoint works without login",
+        "anonymous home request prompts for login",
+        "native CLI password allows web login",
+        "bootstrapped admin can access user management",
+        "saved page content readable by admin",
+        "saved attachment exact bytes readable by admin",
+        "saved page remains private",
+        "saved attachment remains private",
+        "only seeded admin exists",
+        "admin permissions and confirmation persist",
+        "page and attachment are in Git history"
+      ],
+      "git_head": "7c55d4cd0c2e5a16976daf0b0ec9c491d64096f9",
+      "git_commit_count": 3
+    }
+  ],
+  "limitations": [
+    "Flask test client, no real HTTP server or browser",
+    "No Docker, nginx, uWSGI, Railway networking or volume test",
+    "Restore uses environment path overrides for the new local directory",
+    "No upstream bootstrap wrapper or cost/load test"
+  ],
+  "recorded_date": "2026-11-14"
+}

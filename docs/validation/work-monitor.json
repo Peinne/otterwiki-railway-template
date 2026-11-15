@@ -1,0 +1,39 @@
+{
+  "status": "completed",
+  "observed_on": "2026-11-15",
+  "scope": "First scheduled Work monitor execution for the principal Otter Wiki pilot",
+  "confirmation_source": "automations.peek",
+  "scheduled_execution_observed": true,
+  "execution": {
+    "scheduled_at": "2026-11-15T18:00:00Z",
+    "started_at": "2026-11-15T18:19:24.162747Z",
+    "completed_at": "2026-11-15T18:19:54.453768Z",
+    "status": "completed"
+  },
+  "reported_results": {
+    "healthy_running_replicas": 1,
+    "alerts": 0,
+    "failures": 0,
+    "http_requests": {
+      "total": 152,
+      "2xx": 128,
+      "3xx": 19,
+      "4xx": 5,
+      "5xx": 0
+    }
+  },
+  "trial_credit_checked": false,
+  "automatic_repair": false,
+  "next_run_time": "2026-11-16T19:00:00+01:00",
+  "previous_report": {
+    "path": "railway-deployment.json",
+    "relationship": "Historical snapshot predating the first scheduled execution; preserved unchanged. This report updates only the monitor execution evidence."
+  },
+  "limitations": [
+    "One completed scheduled observation does not establish continuous monitoring, sustained uptime or completion of future runs.",
+    "The scheduled time and actual start time differ; no exact-start-time guarantee is established.",
+    "HTTP status counts are the aggregate values reported by this run; they do not establish individual user outcomes or request latency.",
+    "Monetary usage and remaining Trial credit were not checked by the Work monitor.",
+    "This report does not validate backup restoration, an independent template installation, template publication or revenue."
+  ]
+}

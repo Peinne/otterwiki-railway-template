@@ -1,0 +1,150 @@
+{
+  "status": "passed",
+  "otterwiki_version": "2.26.3",
+  "python": "3.12.14",
+  "scope": "real native CLI, SQLite, Git and Flask test client; custom bootstrap script",
+  "results": [
+    {
+      "check": "bootstrap file exists",
+      "passed": true
+    },
+    {
+      "check": "fresh database without credentials fails closed",
+      "passed": true
+    },
+    {
+      "check": "missing credentials create no account",
+      "passed": true
+    },
+    {
+      "check": "production mount guard rejects ordinary directory",
+      "passed": true
+    },
+    {
+      "check": "foreign repository path fails closed",
+      "passed": true
+    },
+    {
+      "check": "public database preference cannot bypass private first setup",
+      "passed": true
+    },
+    {
+      "check": "guard failures create no account",
+      "passed": true
+    },
+    {
+      "check": "short password fails closed",
+      "passed": true
+    },
+    {
+      "check": "short password creates no account",
+      "passed": true
+    },
+    {
+      "check": "newline password fails closed",
+      "passed": true
+    },
+    {
+      "check": "newline password creates no account",
+      "passed": true
+    },
+    {
+      "check": "fresh bootstrap succeeds",
+      "passed": true
+    },
+    {
+      "check": "exactly one configured admin created",
+      "passed": true
+    },
+    {
+      "check": "admin has password and approved confirmed flags",
+      "passed": true
+    },
+    {
+      "check": "restart succeeds without bootstrap secrets",
+      "passed": true
+    },
+    {
+      "check": "restart preserves exact account password hash",
+      "passed": true
+    },
+    {
+      "check": "changed bootstrap environment does not replace admin",
+      "passed": true
+    },
+    {
+      "check": "user password changed through native CLI",
+      "passed": true
+    },
+    {
+      "check": "old bootstrap password cannot reset changed password",
+      "passed": true
+    },
+    {
+      "check": "real Flask create scenario passes after bootstrap",
+      "passed": true
+    },
+    {
+      "check": "real Flask create exercises at least 15 checks",
+      "passed": true
+    },
+    {
+      "check": "real Flask restart scenario passes after bootstrap",
+      "passed": true
+    },
+    {
+      "check": "real Flask restart exercises at least 15 checks",
+      "passed": true
+    },
+    {
+      "check": "injected password CLI failure stops bootstrap",
+      "passed": true
+    },
+    {
+      "check": "failure left one passwordless admin for recovery",
+      "passed": true
+    },
+    {
+      "check": "interrupted bootstrap retains durable recovery marker",
+      "passed": true
+    },
+    {
+      "check": "different bootstrap email cannot take over partial state",
+      "passed": true
+    },
+    {
+      "check": "restart recovers interrupted bootstrap",
+      "passed": true
+    },
+    {
+      "check": "recovery sets password without duplicate account",
+      "passed": true
+    },
+    {
+      "check": "completed bootstrap clears recovery marker",
+      "passed": true
+    },
+    {
+      "check": "existing working admin is preserved",
+      "passed": true
+    },
+    {
+      "check": "existing nonadmin is not promoted by bootstrap",
+      "passed": true
+    },
+    {
+      "check": "no generated credential appears in captured command output",
+      "passed": true
+    },
+    {
+      "check": "bootstrap credentials removed from native subprocess environments",
+      "passed": true
+    }
+  ],
+  "limitations": [
+    "Docker image and startup shell not executed",
+    "No nginx/uWSGI, external network or Railway volume test",
+    "Interruption simulated as native password-command failure after real user creation"
+  ],
+  "recorded_date": "2026-11-14"
+}

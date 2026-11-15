@@ -1,0 +1,46 @@
+name: Container check
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: container-check-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  container:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out the proposed revision
+        # actions/checkout v7.0.1; verified against the official release.
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+
+      - name: Build the pinned upstream wrapper
+        run: docker build --pull --progress=plain --tag otterwiki-railway:smoke .
+
+      - name: Exercise the real container and persistent data
+        run: >-
+          bash tests/container-smoke.sh
+          --image otterwiki-railway:smoke
+          --report "$RUNNER_TEMP/container-smoke.json"
+
+      - name: Publish the sanitized result in the job summary
+        if: always()
+        shell: bash
+        run: |
+          if [ -f "$RUNNER_TEMP/container-smoke.json" ]; then
+            cat "$RUNNER_TEMP/container-smoke.json"
+            {
+              echo '## Container validation'
+              echo '```json'
+              cat "$RUNNER_TEMP/container-smoke.json"
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi

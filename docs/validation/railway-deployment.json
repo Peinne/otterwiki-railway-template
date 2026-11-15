@@ -1,0 +1,130 @@
+{
+  "captured_logs": {
+    "bootstrap_password_absent": true,
+    "build_entries": 34,
+    "healthcheck_succeeded": true,
+    "runtime_entries": 82
+  },
+  "configured_source_commit": "8ffc07c4f42eff6d80eacb5e15e5cf9236e66f5c",
+  "credentials": {
+    "bootstrap_email_variable_still_present": false,
+    "bootstrap_password_variable_still_present": false,
+    "bootstrap_variables_absent_confirmed_from_platform_config": true,
+    "generated_unique_initial_secret": true,
+    "remote_admin_login_validated": true,
+    "same_admin_credentials_preserved_after_redeployment": true
+  },
+  "deployment_reported_commit": "0898ac632839ce146506d62f4a01b6fc19ed4fe8",
+  "deployment_status": "SUCCESS",
+  "environment": "staging",
+  "https_validation": {
+    "effective_request_timeout_seconds": 30,
+    "health_deadline_seconds": 120,
+    "initial_transport_attempt": {
+      "elapsed_seconds": 27.22,
+      "failure": "https_request_failed",
+      "request_timeout_seconds": 10,
+      "status": "interrupted_before_fixture_creation"
+    },
+    "note": "The first transport timeout occurred before creating the fixture. A bounded retry with a 30-second per-request timeout passed. Test duration includes client/network overhead and is not server request latency. The two test phases overlap and their checks are not independent scenarios.",
+    "reports": [
+      {
+        "checks": 21,
+        "elapsed_seconds": 98.68,
+        "report": "railway-initial.json"
+      },
+      {
+        "checks": 24,
+        "elapsed_seconds": 132.16,
+        "report": "railway-recheck.json"
+      }
+    ]
+  },
+  "initial_private_deployment": {
+    "deployment_reported_commit": "96c007cc22a38cb209e7a5a42a8be4759b873636",
+    "started_at": "2026-11-14T19:52:08.648Z",
+    "succeeded_at": "2026-11-14T19:52:53.079Z"
+  },
+  "limitations": [
+    "Deployment healthcheck and scheduled status reads do not establish continuous uptime.",
+    "No Railway backup restore or fresh marketplace-template installation has been validated.",
+    "The configured commit pin differs from deployment metadata; the three runtime inputs match the container-tested Git blobs.",
+    "The pilot uses authorized Trial credits; no paid upgrade or custom monthly spending cap was configured.",
+    "The Work monitor is scheduled, but no scheduled execution has occurred yet; it does not read monetary usage or credit.",
+    "No template is published and no revenue has been observed."
+  ],
+  "observed_configuration": {
+    "builder": "DOCKERFILE",
+    "custom_domains": 0,
+    "dockerfile_path": "Dockerfile",
+    "domain_target_port": 8080,
+    "healthcheck_path": "/-/healthz",
+    "healthcheck_timeout_seconds": 120,
+    "mount_path": "/app-data",
+    "pending_changes": 0,
+    "persistent_volume_count": 1,
+    "persistent_volume_size_mb": 500,
+    "public_service_domains": 1,
+    "region": "sfo",
+    "replicas_crashed": 0,
+    "replicas_running": 1,
+    "restart_max_retries": 3,
+    "same_persistent_volume_across_redeployment": true,
+    "source_auto_deploy": "disabled_in_dashboard",
+    "tcp_proxies": 0
+  },
+  "observed_on": "2026-11-15",
+  "pending": [
+    "Railway backup and recovery validation",
+    "Fresh marketplace-template installation with independent credentials",
+    "Template publication and actual adoption/revenue observation",
+    "First scheduled Work monitor execution",
+    "Continued manual Trial credit review; no custom spending cap is configured"
+  ],
+  "platform": "Railway",
+  "runtime_file_comparison": [
+    {
+      "deployed": "0bb038ae87caad5d442948a6e8403bef61eea925",
+      "identical": true,
+      "path": "Dockerfile",
+      "tested": "0bb038ae87caad5d442948a6e8403bef61eea925"
+    },
+    {
+      "deployed": "d5e027d9c70bf135494e45f89717ce306cc67d6c",
+      "identical": true,
+      "path": "docker/start.sh",
+      "tested": "d5e027d9c70bf135494e45f89717ce306cc67d6c"
+    },
+    {
+      "deployed": "3fb4114a4016c1546b763562758351aa712187e9",
+      "identical": true,
+      "path": "docker/bootstrap.py",
+      "tested": "3fb4114a4016c1546b763562758351aa712187e9"
+    }
+  ],
+  "source_note": "The configured commit pin and deployment metadata differ. Do not claim that the configured pin was enforced. The three Docker runtime inputs have identical Git blob IDs at the CI-tested tree and the deployment-reported tree.",
+  "started_at": "2026-11-15T02:50:29.156Z",
+  "status": "https_and_redeployment_persistence_validated",
+  "succeeded_at": "2026-11-15T02:50:52.787Z",
+  "trial_observation": {
+    "custom_monthly_cap_configured": false,
+    "note": "Early dashboard counters, not a monthly forecast; the Work routine does not inspect monetary credit.",
+    "observed_on": "2026-11-15",
+    "paid_upgrade_performed": false,
+    "detailed_amounts": "Retained in the private operational checkpoint; omitted from this publication snapshot."
+  },
+  "work_monitor": {
+    "automatic_repair": false,
+    "default_timezone": "Europe/Paris",
+    "is_enabled": true,
+    "last_run_time": null,
+    "next_run_time": "2026-11-15T19:00:00+01:00",
+    "occurrences": 7,
+    "schedule": "BEGIN:VEVENT\nDTSTART;TZID=Europe/Paris:20261115T190000\nRRULE:FREQ=DAILY;COUNT=7\nEND:VEVENT",
+    "scheduled_execution_observed": false,
+    "scope": "Read-only Railway status and HTTP incident counts; report anomalies only",
+    "timing_mode": "condition_watch",
+    "title": "Santé du pilote Otter Wiki",
+    "trial_credit_checked": false
+  }
+}

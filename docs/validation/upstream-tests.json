@@ -1,0 +1,22 @@
+{
+  "recorded_date": "2026-11-14",
+  "source": "upstream pytest JUnit report",
+  "upstream_commit": "8036a4cd2c4de5f955c4496c2e1028c0daa0d5f1",
+  "python": "3.12.14",
+  "tests": 79,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "modules": [
+    "tests.test_cli",
+    "tests.test_csrf.TestCSRFAccepted",
+    "tests.test_csrf.TestCSRFExempt",
+    "tests.test_csrf.TestCSRFHeader",
+    "tests.test_csrf.TestCSRFInvalidToken",
+    "tests.test_csrf.TestCSRFRejection",
+    "tests.test_csrf.TestCSRFTestClient",
+    "tests.test_security_headers",
+    "tests.test_settings_env_types"
+  ],
+  "scope": "selected existing upstream tests only; no container or Railway execution"
+}

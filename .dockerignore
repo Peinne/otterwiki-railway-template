@@ -1,0 +1,17 @@
+# Keep credentials, user data and local tooling out of the image build context.
+.git
+.env
+.env.*
+app-data
+backups
+.venv
+venv
+**/__pycache__
+**/*.pyc
+.pytest_cache
+.coverage
+htmlcov
+test-results
+tmp
+**/*.log
+.DS_Store

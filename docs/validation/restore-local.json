@@ -1,0 +1,72 @@
+{
+  "status": "passed",
+  "python": "3.12.14",
+  "recorded_date": "2026-11-15",
+  "scope": "synthetic offline restore into separate local directories",
+  "assertions": 14,
+  "results": [
+    {
+      "check": "offline SQLite and Git restore succeeds",
+      "passed": true
+    },
+    {
+      "check": "restored database retains synthetic account",
+      "passed": true
+    },
+    {
+      "check": "page and attachment bytes retained",
+      "passed": true
+    },
+    {
+      "check": "Git history retained",
+      "passed": true
+    },
+    {
+      "check": "modes owners and timestamps retained",
+      "passed": true
+    },
+    {
+      "check": "existing empty lost+found handled without replacement data",
+      "passed": true
+    },
+    {
+      "check": "original Git configuration preserved",
+      "passed": true
+    },
+    {
+      "check": "successful restore leaves no staging marker",
+      "passed": true
+    },
+    {
+      "check": "occupied destination refused and preserved",
+      "passed": true
+    },
+    {
+      "check": "SHA mismatch refused before extraction",
+      "passed": true
+    },
+    {
+      "check": "path traversal refused without target writes",
+      "passed": true
+    },
+    {
+      "check": "escaping symlink chain refused and staging removed",
+      "passed": true
+    },
+    {
+      "check": "special file refused without target writes",
+      "passed": true
+    },
+    {
+      "check": "corrupt gzip refused despite matching supplied digest",
+      "passed": true
+    }
+  ],
+  "failure": null,
+  "limitations": [
+    "No real backup, credentials or pilot data accessed",
+    "No Docker, Railway or network operation",
+    "No running application login or runtime persistence verification",
+    "Publication is multiple renames; offline independent target is an operator prerequisite"
+  ]
+}

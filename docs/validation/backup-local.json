@@ -1,0 +1,104 @@
+{
+  "status": "passed",
+  "python": "3.12.14",
+  "scope": "synthetic local SQLite WAL, Git, export and isolated directory restore",
+  "recorded_date": "2026-11-15",
+  "assertions": 22,
+  "results": [
+    {
+      "check": "fixture has live WAL",
+      "passed": true
+    },
+    {
+      "check": "WAL export succeeds",
+      "passed": true
+    },
+    {
+      "check": "archive is 0600",
+      "passed": true
+    },
+    {
+      "check": "archive checksum matches",
+      "passed": true
+    },
+    {
+      "check": "settings and wrapper marker retained",
+      "passed": true
+    },
+    {
+      "check": "Git history retained",
+      "passed": true
+    },
+    {
+      "check": "live SQLite sidecars excluded",
+      "passed": true
+    },
+    {
+      "check": "source permissions retained",
+      "passed": true
+    },
+    {
+      "check": "numeric owner retained",
+      "passed": true
+    },
+    {
+      "check": "restored SQLite integrity",
+      "passed": true
+    },
+    {
+      "check": "WAL account data retained",
+      "passed": true
+    },
+    {
+      "check": "attachment bytes retained",
+      "passed": true
+    },
+    {
+      "check": "relative internal symlink retained",
+      "passed": true
+    },
+    {
+      "check": "restored Git integrity",
+      "passed": true
+    },
+    {
+      "check": "existing destination refused",
+      "passed": true
+    },
+    {
+      "check": "existing archive unchanged",
+      "passed": true
+    },
+    {
+      "check": "destination inside source refused",
+      "passed": true
+    },
+    {
+      "check": "concurrent file change refused",
+      "passed": true
+    },
+    {
+      "check": "file-change failure publishes no archive",
+      "passed": true
+    },
+    {
+      "check": "concurrent WAL commit refused",
+      "passed": true
+    },
+    {
+      "check": "database-change failure publishes no archive",
+      "passed": true
+    },
+    {
+      "check": "private temporary data cleaned up",
+      "passed": true
+    }
+  ],
+  "failure": null,
+  "limitations": [
+    "No real wiki data or credentials accessed",
+    "No Docker, Railway or external network call",
+    "Synthetic directory restoration does not establish deployed application restoration",
+    "Concurrent file and database commits are injected during copy; no atomic snapshot claim"
+  ]
+}
