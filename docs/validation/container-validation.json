@@ -1,13 +1,7 @@
 {
   "recorded_at": "2026-11-14",
   "source": {
-    "head_sha": "581cd538e5d2f1dec26f75d20b82e4af3e017260",
-    "tested_checkout_sha": "f63752305461d15876a4d31a71441dc3e6e820d0",
-    "merged_main_sha": "8ffc07c4f42eff6d80eacb5e15e5cf9236e66f5c",
-    "tested_and_merged_tree_sha": "7590990e725edee5e326906144b2453e311bf737",
-    "workflow_run_id": 43630381961,
-    "workflow_job_id": 132555441581,
-    "workflow_url": "https://github.com/Peinne/otterwiki-railway/actions/runs/43630381961",
+    "detailed_run_record_retained_privately": true,
     "build": "passed",
     "workflow_conclusion": "success"
   },

@@ -5,7 +5,7 @@
     "healthcheck_succeeded": true,
     "runtime_entries": 82
   },
-  "configured_source_commit": "8ffc07c4f42eff6d80eacb5e15e5cf9236e66f5c",
+  "source_identifiers_retained_privately": true,
   "credentials": {
     "bootstrap_email_variable_still_present": false,
     "bootstrap_password_variable_still_present": false,
@@ -14,7 +14,6 @@
     "remote_admin_login_validated": true,
     "same_admin_credentials_preserved_after_redeployment": true
   },
-  "deployment_reported_commit": "0898ac632839ce146506d62f4a01b6fc19ed4fe8",
   "deployment_status": "SUCCESS",
   "environment": "staging",
   "https_validation": {
@@ -41,7 +40,6 @@
     ]
   },
   "initial_private_deployment": {
-    "deployment_reported_commit": "96c007cc22a38cb209e7a5a42a8be4759b873636",
     "started_at": "2026-11-14T19:52:08.648Z",
     "succeeded_at": "2026-11-14T19:52:53.079Z"
   },

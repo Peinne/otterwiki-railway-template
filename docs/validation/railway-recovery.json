@@ -2,7 +2,7 @@
   "schema_version": 1,
   "status": "passed",
   "observed_date_utc": "2026-11-15",
-  "source_revision_reported_by_railway": "ba1c01114290e2f1745de77e08bcd50ab6f717e8",
+  "source_identifiers_retained_privately": true,
   "method": "checked application export followed by offline restore on a separate Railway volume",
   "source_export_report": "railway-backup.json",
   "isolation": {

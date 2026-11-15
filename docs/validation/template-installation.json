@@ -3,10 +3,9 @@
   "status": "passed_with_scope_limits",
   "observed_date_utc": "2026-11-15",
   "template_name": "Otter Wiki — Private Wiki",
-  "template_code": "umrEkV",
+  "detailed_template_and_source_record_retained_privately": true,
   "marketplace_published": false,
   "source_repository_visibility": "private",
-  "source_commit_reported_by_railway": "ba1c01114290e2f1745de77e08bcd50ab6f717e8",
   "deployment_created_at_utc": "2026-11-15T18:40:32.255Z",
   "deployment_succeeded_at_utc": "2026-11-15T18:41:09.760Z",
   "installation": {
