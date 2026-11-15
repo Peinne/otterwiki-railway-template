@@ -5,8 +5,8 @@ This wrapper deploys [Otter Wiki](https://github.com/redimp/otterwiki) with one
 application service and one volume. It keeps the upstream application intact and
 creates the first administrator before starting the web server.
 
-**Release candidate — the Railway template has not been published.** A deployment
-link will be added when the template is released.
+**Published on Railway on 2026-11-15.**
+[Deploy Otter Wiki — Private Wiki](https://railway.com/deploy/otter-wiki-private-wiki).
 
 ## What you get
 
@@ -22,8 +22,6 @@ The application has an HTTPS address. Authentication protects the wiki content;
 the administrator can change access preferences inside Otter Wiki.
 
 ## Install and create the first administrator
-
-These instructions apply when the template is released.
 
 1. Open the Railway template and choose the workspace where you will operate the
    wiki. Confirm that it contains one application service and one volume mounted
@@ -116,9 +114,9 @@ The following sanitized reports describe controlled checks of this wrapper:
 | Independent recovery | [Recovery record](docs/validation/railway-recovery.json) and [restored-copy HTTPS check](docs/validation/railway-restore-https.json): original administrator, exact page and attachment, privacy and a new edit verified after normal startup on another volume. |
 
 See [tests/README.md](tests/README.md) for reproduction instructions and the limits
-of each test. These are historical validation reports, not a claim that this
-release candidate has a public CI run. The checks overlap and their counts must
-not be added as independent scenarios.
+of each test. These historical reports describe checks performed before
+publication. The container CI run belongs to the private development repository.
+The checks overlap and their counts must not be added as independent scenarios.
 
 The reports do not establish sustained uptime, performance under load, a fixed
 monthly price or a guaranteed recovery time. A deployment healthcheck confirms

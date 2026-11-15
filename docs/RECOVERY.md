@@ -1,8 +1,8 @@
 # Recovery drill — passed
 
 The controlled recovery drill passed on 2026-11-15 for the pinned pilot
-configuration. The template remains **DRAFT pending publication**; recovery
-validation is complete. See the [sanitized Railway recovery report](validation/railway-recovery.json).
+configuration. Recovery validation is complete.
+See the [sanitized Railway recovery report](validation/railway-recovery.json).
 
 `ops/backup_data.py` prepares a **checked online copy**, not an atomic snapshot of
 the whole volume. It does not stop, restart, reconfigure or restore the application.
@@ -216,7 +216,7 @@ records this isolation alongside the offline restoration and normal restart.
 HTTPS application recheck.** This controlled exercise does not provide automated
 backups or automated disaster recovery. The observed durations are not recovery
 time or availability guarantees. Temporary compute cleanup is handled separately
-from the recovery acceptance result; publication remains pending.
+from the recovery acceptance result.
 
 References: [Python SQLite backup](https://docs.python.org/3.11/library/sqlite3.html#sqlite3.Connection.backup),
 [SQLite Online Backup API](https://sqlite.org/backup.html),
